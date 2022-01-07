@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lanes/style/style.dart';
 import 'package:lanes/widgets/dot_column.dart';
+import 'package:lanes/widgets/subsections_column.dart';
 
 class RouteOverview extends StatelessWidget {
   const RouteOverview({Key? key}) : super(key: key);
@@ -19,7 +20,8 @@ class RouteOverview extends StatelessWidget {
           padding: const EdgeInsets.all(15.0),
           child: Column(
             children: [
-              Expanded(
+              Flexible(
+                fit: FlexFit.loose,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -27,10 +29,14 @@ class RouteOverview extends StatelessWidget {
                       flex: 1,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             "Departure on:",
                             style: defaultLightGrey,
+                          ),
+                          SizedBox(
+                            height: 10,
                           ),
                           RichText(
                               text: TextSpan(children: [
@@ -62,44 +68,73 @@ class RouteOverview extends StatelessWidget {
                                   style: defaultBlue,
                                 )
                               ],
-                            )
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Flexible(child: SubSectionsColumn())
                           ],
                         ))
                   ],
                 ),
               ),
-              Expanded(
-                  child: Row(children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
-                  child: DotColumn(
-                    size: 8,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
-                  child: Column(
+              Flexible(
+                  fit: FlexFit.loose,
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(text: "Kray Nord", style: defaultDarkGrey),
-                        TextSpan(text: "\n"),
-                        TextSpan(text: "Nov 14, 14:00", style: defaultLightGrey)
-                      ])),
-                      RichText(
-                          text: TextSpan(children: [
-                        TextSpan(
-                            text: "Berlin, Hauptbahnhof",
-                            style: defaultDarkGrey),
-                        TextSpan(text: "\n"),
-                        TextSpan(text: "Nov 14, 14:00", style: defaultLightGrey)
-                      ])),
+                      Flexible(
+                        child: Row(children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 4),
+                            child: DotColumn(
+                              size: 8,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(4, 0, 0, 0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                    text: TextSpan(children: [
+                                  TextSpan(
+                                      text: "Kray Nord",
+                                      style: defaultDarkGrey),
+                                  TextSpan(text: "\n"),
+                                  TextSpan(
+                                      text: "Nov 14, 14:00",
+                                      style: defaultLightGrey)
+                                ])),
+                                RichText(
+                                    text: TextSpan(children: [
+                                  TextSpan(
+                                      text: "Berlin, Hauptbahnhof",
+                                      style: defaultDarkGrey),
+                                  TextSpan(text: "\n"),
+                                  TextSpan(
+                                      text: "Nov 14, 14:00",
+                                      style: defaultLightGrey)
+                                ])),
+                              ],
+                            ),
+                          )
+                        ]),
+                      ),
+                      Flexible(
+                        child: TextButton(
+                          style: orangeButtonRoundedStyle,
+                          onPressed: () {},
+                          child: Text(
+                            "Details",
+                            style: defaultWhite,
+                          ),
+                        ),
+                      ),
                     ],
-                  ),
-                )
-              ]))
+                  ))
             ],
           ),
         ),

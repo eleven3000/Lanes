@@ -30,4 +30,13 @@ TextStyle largeWhite =
 TextStyle largeBlack =
     TextStyle(color: eBlack, fontSize: 20, fontFamily: "Roboto");
 TextStyle headlineDarkGrey =
-    TextStyle(color: darkGrey, fontSize: 32, fontFamily: "Roboto");
+    TextStyle(color: darkGrey, fontSize: 40, fontFamily: "Roboto");
+
+ButtonStyle orangeButtonRoundedStyle = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all<Color>(lightOrange),
+    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+        EdgeInsets.symmetric(vertical: 12, horizontal: 24)),
+    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            side: BorderSide(color: lightOrange))));

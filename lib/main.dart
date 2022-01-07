@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lanes/screens/test_screen.dart';
+import 'package:lanes/screens/route_planner_screen.dart';
 
 void main() => runApp(MyApp());
 
