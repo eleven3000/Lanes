@@ -30,7 +30,6 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
     final chopper = ChopperClient(
       baseUrl: "https://api.lanesapp.de",
       services: [
-        // Create and pass an instance of the generated service to the client
         StopsService.create()
       ],
     );
