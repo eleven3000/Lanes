@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:lanes/models/stop_store_object.dart';
 import 'package:lanes/screens/loading_screen.dart';
 import 'package:lanes/services/stopsService.dart';
 import 'package:lanes/style/style.dart';
@@ -17,10 +19,14 @@ class RoutePlannerScreen extends StatefulWidget {
 }
 
 class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
-  final Future<String> _initScreen = Future<String>.delayed(
-    const Duration(seconds: 2),
-    () => 'Data Loaded',
-  );
+  final Future<String> _fakeLoadingTime =
+      Future<String>.delayed(const Duration(seconds: 2), () => "Data loaded!");
+
+  late Box<StopStoreObject> box;
+  Future<void> _init() async {
+    box = Hive.box('recent');
+    return;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,15 +35,12 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
 
     final chopper = ChopperClient(
       baseUrl: "https://api.lanesapp.de",
-      services: [
-        StopsService.create()
-      ],
+      services: [StopsService.create()],
     );
 
     final stopsService = chopper.getService<StopsService>();
-
     return FutureBuilder(
-        future: _initScreen,
+        future: Future.wait([_init(), _fakeLoadingTime]),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return LoadingScreen();
@@ -93,7 +96,11 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                                     "From",
                                                     style: defaultLightGrey,
                                                   ),
-                                                  StopSearchBox(stopsService: stopsService, width: width),
+                                                  StopSearchBox(
+                                                    stopsService: stopsService,
+                                                    width: width,
+                                                    box: box,
+                                                  ),
                                                   Divider(
                                                     color: lightGrey,
                                                     thickness: 2,
@@ -103,7 +110,11 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                                     "To",
                                                     style: defaultLightGrey,
                                                   ),
-                                                  StopSearchBox(stopsService: stopsService, width: width)
+                                                  StopSearchBox(
+                                                    stopsService: stopsService,
+                                                    width: width,
+                                                    box: box,
+                                                  )
                                                 ],
                                               ),
                                             ),
@@ -161,4 +172,3 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
         });
   }
 }
-

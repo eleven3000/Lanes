@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lanes/screens/route_planner_screen.dart';
 
-void main() => runApp(MyApp());
+import 'models/stop_store_object.dart';
+
+void main() async {
+  await Hive.initFlutter();
+  Hive.registerAdapter(StopStoreObjectAdapter());
+  await Hive.openBox<StopStoreObject>('recent');
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
