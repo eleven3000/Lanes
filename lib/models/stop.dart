@@ -21,6 +21,8 @@ class Stop {
   final double? latitude;
   final double? longitude;
 
+  bool isHistory = false;
+
   Stop(
       {required this.name,
       required this.type,
@@ -32,6 +34,9 @@ class Stop {
       required this.longitude});
 
   IconData getStopTypeIcon() {
+    if (isHistory) {
+      return Icons.history;
+    }
     return iconMap[type] ?? Icons.help;
   }
 
@@ -41,15 +46,14 @@ class Stop {
 }
 
 @JsonSerializable()
-class StopResponse{
+class StopResponse {
   ///List of Stops
   final List<Stop> stops;
 
-  StopResponse({
-    required this.stops
-  });
+  StopResponse({required this.stops});
 
-  factory StopResponse.fromJson(Map<String, dynamic> json) => _$StopResponseFromJson(json);
+  factory StopResponse.fromJson(Map<String, dynamic> json) =>
+      _$StopResponseFromJson(json);
 
   Map<String, dynamic> toJson() => _$StopResponseToJson(this);
 }

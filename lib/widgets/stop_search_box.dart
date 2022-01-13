@@ -25,17 +25,19 @@ class StopSearchBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownSearch<Stop>(
       mode: Mode.DIALOG,
-      showFavoriteItems: true,
-      favoriteItems: (items) {
-        return items;
-      },
       //popupShape:
       // RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
       isFilteredOnline: true,
       searchDelay: Duration(milliseconds: 500),
       onFind: (text) async {
+        if (text == null || text.isEmpty) {
+          return box.values
+              .map((e) =>
+                  Stop.fromJson(jsonDecode(e.stopJson))..isHistory = true)
+              .toList();
+        }
         return stopsService.getStops(
-          text ?? "",
+          text,
           10,
         );
       },
@@ -88,48 +90,17 @@ class StopSearchBox extends StatelessWidget {
         );
       },
       emptyBuilder: (context, searchEntry) {
-        if (box.values.isEmpty) {
-          String text = "";
-          if (searchEntry == null || searchEntry.isEmpty) {
-            text = "Search for a stop or address.";
-          } else {
-            text = "no result found!";
-          }
-          return Center(
-              child: Text(
-            text,
-            style: largeDarkGrey,
-          ));
+        String text = "";
+        if (searchEntry == null || searchEntry.isEmpty) {
+          text = "Search for a stop or address.";
         } else {
-          List<StopStoreObject> sorted = box.values.toList();
-          sorted.sort((a, b) => a.uses.compareTo(b.uses));
-          List<Stop> recents =
-              sorted.map((e) => Stop.fromJson(jsonDecode(e.stopJson))).toList();
-          return ListView.builder(
-            itemCount: recents.length,
-            itemBuilder: (context, index) {
-              var item = recents[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Icon(Icons.history),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      child: AutoSizeText(
-                        item.name,
-                        style: largeBlack,
-                        maxLines: 2,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
+          text = "no result found!";
         }
+        return Center(
+            child: Text(
+          text,
+          style: largeDarkGrey,
+        ));
       },
       dropdownSearchDecoration: InputDecoration.collapsed(
           hintText: "Tap to search...", hintStyle: largeDarkGrey),

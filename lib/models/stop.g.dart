@@ -27,3 +27,14 @@ Map<String, dynamic> _$StopToJson(Stop instance) => <String, dynamic>{
       'latitude': instance.latitude,
       'longitude': instance.longitude,
     };
+
+StopResponse _$StopResponseFromJson(Map<String, dynamic> json) => StopResponse(
+      stops: (json['stops'] as List<dynamic>)
+          .map((e) => Stop.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$StopResponseToJson(StopResponse instance) =>
+    <String, dynamic>{
+      'stops': instance.stops,
+    };

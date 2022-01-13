@@ -23,13 +23,9 @@ abstract class StopsService extends ChopperService {
 
     final response =
         await _getStops("$queryType-\"$query\"", limit, resultTypesString);
-    List<Stop> stops = <Stop>[];
-    if (response.isSuccessful) {
-      Map<String, dynamic> s = jsonDecode(response.bodyString);
-      (s["stops"] as List<dynamic>).forEach((element) {
-        stops.add(Stop.fromJson(element));
-      });
-    }
-    return stops;
+
+    StopResponse stopResponse =
+        StopResponse.fromJson(jsonDecode(response.body));
+    return stopResponse.stops;
   }
 }
