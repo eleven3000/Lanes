@@ -39,3 +39,17 @@ class Stop {
 
   Map<String, dynamic> toJson() => _$StopToJson(this);
 }
+
+@JsonSerializable()
+class StopResponse{
+  ///List of Stops
+  final List<Stop> stops;
+
+  StopResponse({
+    required this.stops
+  });
+
+  factory StopResponse.fromJson(Map<String, dynamic> json) => _$StopResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$StopResponseToJson(this);
+}
