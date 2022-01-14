@@ -20,7 +20,7 @@ class Stop {
   final String id;
   final double? latitude;
   final double? longitude;
-
+  @JsonKey(ignore: true)
   bool isHistory = false;
 
   Stop(
@@ -38,6 +38,11 @@ class Stop {
       return Icons.history;
     }
     return iconMap[type] ?? Icons.help;
+  }
+
+  @override
+  String toString() {
+    return {"name": name, "id": id}.toString();
   }
 
   factory Stop.fromJson(Map<String, dynamic> json) => _$StopFromJson(json);

@@ -1,7 +1,10 @@
 import 'dart:math';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:lanes/models/routeParameters.dart';
+import 'package:lanes/models/stop.dart';
 import 'package:lanes/models/stop_store_object.dart';
 import 'package:lanes/screens/loading_screen.dart';
 import 'package:lanes/services/stopsService.dart';
@@ -11,14 +14,14 @@ import 'package:lanes/widgets/dot_column.dart';
 import 'package:lanes/widgets/filter_row.dart';
 import 'package:lanes/widgets/stop_search_box.dart';
 
-class RoutePlannerScreen extends StatefulWidget {
+class RoutePlannerScreen extends ConsumerStatefulWidget {
   const RoutePlannerScreen({Key? key}) : super(key: key);
 
   @override
   _RoutePlannerScreenState createState() => _RoutePlannerScreenState();
 }
 
-class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
+class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
   final Future<String> _fakeLoadingTime =
       Future<String>.delayed(const Duration(seconds: 2), () => "Data loaded!");
 
@@ -100,6 +103,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                                     stopsService: stopsService,
                                                     width: width,
                                                     box: box,
+                                                    searchType: SearchType.FROM,
                                                   ),
                                                   Divider(
                                                     color: lightGrey,
@@ -114,6 +118,7 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                                     stopsService: stopsService,
                                                     width: width,
                                                     box: box,
+                                                    searchType: SearchType.TO,
                                                   )
                                                 ],
                                               ),
@@ -129,10 +134,33 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                                         BorderRadius.circular(
                                                             10),
                                                   ),
-                                                  child: Icon(
-                                                    Icons.swap_vert_rounded,
-                                                    color: darkGrey,
-                                                    size: 50,
+                                                  child: IconButton(
+                                                    padding: EdgeInsets.all(2),
+                                                    iconSize: 50,
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        Stop? oldFrom = ref
+                                                            .read(
+                                                                routeParametersProvider)
+                                                            .from;
+                                                        ref
+                                                                .read(
+                                                                    routeParametersProvider)
+                                                                .from =
+                                                            ref
+                                                                .read(
+                                                                    routeParametersProvider)
+                                                                .to;
+                                                        ref
+                                                            .read(
+                                                                routeParametersProvider)
+                                                            .to = oldFrom;
+                                                      });
+                                                    },
+                                                    icon: Icon(
+                                                      Icons.swap_vert_rounded,
+                                                      color: darkGrey,
+                                                    ),
                                                   ),
                                                 ),
                                                 Container(
@@ -145,7 +173,16 @@ class _RoutePlannerScreenState extends State<RoutePlannerScreen> {
                                                   child: IconButton(
                                                     padding: EdgeInsets.all(2),
                                                     iconSize: 50,
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      print(ref
+                                                          .read(
+                                                              routeParametersProvider)
+                                                          .from);
+                                                      print(ref
+                                                          .read(
+                                                              routeParametersProvider)
+                                                          .to);
+                                                    },
                                                     icon: Icon(
                                                       Icons
                                                           .arrow_forward_rounded,

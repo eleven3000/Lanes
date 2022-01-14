@@ -67,7 +67,7 @@ class RoutePart {
 
   ///List of all Stops including start and End
   @JsonKey(name: "itdStopSeqPoints")
-  final List<RoutePoint> allPointsWithLayovers;
+  final List<RoutePoint> allPointsWithStopovers;
 
   ///List of Waypoints as Coordinates
   @JsonKey(name: "itdPathCoordinates")
@@ -77,7 +77,7 @@ class RoutePart {
       {required this.duration,
       required this.mot,
       required this.points,
-      required this.allPointsWithLayovers,
+      required this.allPointsWithStopovers,
       required this.coordinates});
 
   factory RoutePart.fromJson(Map<String, dynamic> json) =>

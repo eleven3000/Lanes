@@ -47,7 +47,7 @@ RoutePart _$RoutePartFromJson(Map<String, dynamic> json) => RoutePart(
       points: (json['itdPoints'] as List<dynamic>)
           .map((e) => RoutePoint.fromJson(e as Map<String, dynamic>))
           .toList(),
-      allPointsWithLayovers: (json['itdStopSeqPoints'] as List<dynamic>)
+      allPointsWithStopovers: (json['itdStopSeqPoints'] as List<dynamic>)
           .map((e) => RoutePoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       coordinates: (json['itdPathCoordinates'] as List<dynamic>)
@@ -59,7 +59,7 @@ Map<String, dynamic> _$RoutePartToJson(RoutePart instance) => <String, dynamic>{
       'timeMinute': instance.duration,
       'itdMeansOfTransport': instance.mot,
       'itdPoints': instance.points,
-      'itdStopSeqPoints': instance.allPointsWithLayovers,
+      'itdStopSeqPoints': instance.allPointsWithStopovers,
       'itdPathCoordinates': instance.coordinates,
     };
 

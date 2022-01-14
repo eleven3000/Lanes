@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lanes/screens/route_planner_screen.dart';
 
@@ -8,7 +9,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(StopStoreObjectAdapter());
   await Hive.openBox<StopStoreObject>('recent');
-  runApp(MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
