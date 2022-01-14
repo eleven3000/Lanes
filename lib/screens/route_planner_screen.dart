@@ -3,11 +3,13 @@ import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:lanes/models/routeModels.dart';
 import 'package:lanes/models/routeParameters.dart';
 import 'package:lanes/models/stop.dart';
 import 'package:lanes/models/stop_store_object.dart';
 import 'package:lanes/screens/loading_screen.dart';
 import 'package:lanes/services/stopsService.dart';
+import 'package:lanes/services/tripsService.dart';
 import 'package:lanes/style/style.dart';
 import 'package:lanes/widgets/bottom_route_sheet.dart';
 import 'package:lanes/widgets/dot_column.dart';
@@ -31,6 +33,9 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
     return;
   }
 
+  bool showLoading = false;
+  RouteResponse? currentRoutes;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -38,10 +43,11 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
 
     final chopper = ChopperClient(
       baseUrl: "https://api.lanesapp.de",
-      services: [StopsService.create()],
+      services: [StopsService.create(), TripsService.create()],
     );
 
     final stopsService = chopper.getService<StopsService>();
+    final tripsService = chopper.getService<TripsService>();
     return FutureBuilder(
         future: Future.wait([_init(), _fakeLoadingTime]),
         builder: (context, snapshot) {
@@ -75,7 +81,7 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                                       ),
                                     ),
                                     child: SizedBox(
-                                      height: min(200, height / 5),
+                                      height: 180,
                                       width: width,
                                       child: Padding(
                                         padding: const EdgeInsets.all(12.0),
@@ -174,14 +180,23 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                                                     padding: EdgeInsets.all(2),
                                                     iconSize: 50,
                                                     onPressed: () {
-                                                      print(ref
-                                                          .read(
-                                                              routeParametersProvider)
-                                                          .from);
-                                                      print(ref
-                                                          .read(
-                                                              routeParametersProvider)
-                                                          .to);
+                                                      setState(() {
+                                                        showLoading = true;
+                                                      });
+                                                      var response =
+                                                          tripsService.getTrips(
+                                                              parameters: ref.read(
+                                                                  routeParametersProvider));
+                                                      response.then((value) {
+                                                        print(value);
+                                                        setState(() {
+                                                          showLoading = false;
+                                                          currentRoutes = value;
+                                                        });
+                                                      }, onError: (error) {
+                                                        showLoading = false;
+                                                        print(error);
+                                                      });
                                                     },
                                                     icon: Icon(
                                                       Icons
@@ -201,7 +216,12 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                               ),
                             )),
                       ),
-                      BottomRouteSheet(height: height, width: width),
+                      BottomRouteSheet(
+                        height: height,
+                        width: width,
+                        currentRoutes: currentRoutes,
+                        showLoading: showLoading,
+                      ),
                     ],
                   ),
                 ),

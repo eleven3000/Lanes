@@ -1,46 +1,56 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:lanes/models/routeModels.dart';
 import 'package:lanes/style/style.dart';
 
 class SubSectionsColumn extends StatelessWidget {
-  const SubSectionsColumn({Key? key}) : super(key: key);
+  final List<RoutePart> parts;
+  final int max = 3;
+
+  const SubSectionsColumn({Key? key, required this.parts}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SubsectionIcon(),
-        Padding(
+    return ListView.separated(
+      scrollDirection: Axis.horizontal,
+      physics: NeverScrollableScrollPhysics(),
+      itemCount: min(parts.length, max),
+      itemBuilder: (context, index) {
+        if (index == 1 && parts.length > max) {
+          return SubstectionHiddenIcon(hiddenAmount: parts.length - max + 1);
+        }
+        return SubsectionIcon(part: parts[index]);
+      },
+      separatorBuilder: (context, index) {
+        return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Icon(
             Icons.arrow_forward_ios,
             color: lightGrey,
             size: 12,
           ),
-        ),
-        SubsectionIcon(),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.arrow_forward_ios,
-            color: lightGrey,
-            size: 12,
-          ),
-        ),
-        SubsectionIcon()
-      ],
+        );
+      },
     );
   }
 }
 
 class SubsectionIcon extends StatelessWidget {
-  const SubsectionIcon({Key? key}) : super(key: key);
+  final RoutePart part;
+  const SubsectionIcon({Key? key, required this.part}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    RoutePoint departurePoint = part.points[0];
+    DateTime departureTime =
+        DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime).toLocal();
     return Container(
       child: Column(
         children: [
-          Text("14:00", style: defaultLightGrey),
+          Text(DateFormat("HH:mm").format(departureTime),
+              style: defaultLightGrey),
           Row(
             children: [
               Icon(
@@ -58,7 +68,7 @@ class SubsectionIcon extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       vertical: 2.0, horizontal: 6.0),
                   child: Text(
-                    "20",
+                    part.mot.shortName,
                     style: defaultWhite,
                   ),
                 ),
@@ -67,6 +77,30 @@ class SubsectionIcon extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class SubstectionHiddenIcon extends StatelessWidget {
+  final int hiddenAmount;
+
+  const SubstectionHiddenIcon({Key? key, required this.hiddenAmount})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: Container(
+          child: Column(
+        children: [
+          Text("${hiddenAmount}x", style: defaultLightGrey),
+          Icon(
+            Icons.more_horiz,
+            color: darkGrey,
+          ),
+        ],
+      )),
     );
   }
 }

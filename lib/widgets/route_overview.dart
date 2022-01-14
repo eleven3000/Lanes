@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:lanes/models/routeModels.dart';
 import 'package:lanes/style/style.dart';
 import 'package:lanes/widgets/dot_column.dart';
 import 'package:lanes/widgets/subsections_column.dart';
 
 class RouteOverview extends StatelessWidget {
-  const RouteOverview({Key? key}) : super(key: key);
+  final RouteObj route;
+
+  RouteOverview({required this.route, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    RoutePoint departurePoint = route.parts[0].points[0];
+    DateTime departureTime =
+        DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime).toLocal();
+    //.subtract(Duration(hours: 1));
+    RoutePoint arrivalPoint = route.parts[route.parts.length - 1].points[1];
+    DateTime arrivalTime =
+        DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime).toLocal();
     return SizedBox(
       height: 200,
       width: double.maxFinite,
@@ -32,7 +43,7 @@ class RouteOverview extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            "Departure on:",
+                            "Departure in:",
                             style: defaultLightGrey,
                           ),
                           SizedBox(
@@ -40,8 +51,14 @@ class RouteOverview extends StatelessWidget {
                           ),
                           RichText(
                               text: TextSpan(children: [
-                            TextSpan(text: "05", style: headlineDarkGrey),
-                            TextSpan(text: "min", style: largeDarkGrey)
+                            TextSpan(
+                                text: departureTime
+                                    .difference(DateTime.now())
+                                    .inMinutes
+                                    .toString()
+                                    .padLeft(2, "0"),
+                                style: headlineDarkGrey),
+                            TextSpan(text: " min", style: largeDarkGrey)
                           ]))
                         ],
                       ),
@@ -61,10 +78,11 @@ class RouteOverview extends StatelessWidget {
                                       text: "Travel Time: ",
                                       style: defaultLightGrey),
                                   TextSpan(
-                                      text: "15 min", style: defaultDarkGrey)
+                                      text: route.publicDuration,
+                                      style: defaultDarkGrey)
                                 ])),
                                 Text(
-                                  "13:55",
+                                  DateFormat("HH:mm").format(departureTime),
                                   style: defaultBlue,
                                 )
                               ],
@@ -72,7 +90,8 @@ class RouteOverview extends StatelessWidget {
                             SizedBox(
                               height: 10,
                             ),
-                            Flexible(child: SubSectionsColumn())
+                            Flexible(
+                                child: SubSectionsColumn(parts: route.parts))
                           ],
                         ))
                   ],
@@ -85,6 +104,7 @@ class RouteOverview extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Flexible(
+                        flex: 2,
                         child: Row(children: [
                           Padding(
                             padding: const EdgeInsets.only(bottom: 4),
@@ -98,26 +118,33 @@ class RouteOverview extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(
-                                      text: "Kray Nord",
-                                      style: defaultDarkGrey),
-                                  TextSpan(text: "\n"),
-                                  TextSpan(
-                                      text: "Nov 14, 14:00",
-                                      style: defaultLightGrey)
-                                ])),
-                                RichText(
-                                    text: TextSpan(children: [
-                                  TextSpan(
-                                      text: "Berlin, Hauptbahnhof",
-                                      style: defaultDarkGrey),
-                                  TextSpan(text: "\n"),
-                                  TextSpan(
-                                      text: "Nov 14, 14:00",
-                                      style: defaultLightGrey)
-                                ])),
+                                Expanded(
+                                  child: RichText(
+                                      overflow: TextOverflow.fade,
+                                      text: TextSpan(children: [
+                                        TextSpan(
+                                            text: departurePoint.name,
+                                            style: defaultDarkGrey),
+                                        TextSpan(text: "\n"),
+                                        TextSpan(
+                                            text: DateFormat("MMM dd, HH:mm")
+                                                .format(departureTime),
+                                            style: defaultLightGrey)
+                                      ])),
+                                ),
+                                Expanded(
+                                  child: RichText(
+                                      text: TextSpan(children: [
+                                    TextSpan(
+                                        text: arrivalPoint.name,
+                                        style: defaultDarkGrey),
+                                    TextSpan(text: "\n"),
+                                    TextSpan(
+                                        text: DateFormat("MMM dd, HH:mm")
+                                            .format(arrivalTime),
+                                        style: defaultLightGrey)
+                                  ])),
+                                ),
                               ],
                             ),
                           )

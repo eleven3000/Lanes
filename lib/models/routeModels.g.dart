@@ -9,29 +9,29 @@ part of 'routeModels.dart';
 RouteResponse _$RouteResponseFromJson(Map<String, dynamic> json) =>
     RouteResponse(
       routes: (json['routes'] as List<dynamic>)
-          .map((e) => Route.fromJson(e as Map<String, dynamic>))
+          .map((e) => RouteObj.fromJson(e as Map<String, dynamic>))
           .toList(),
-      sessioID: json['sessioID'] as String,
+      sessionID: json['sessionID'] as String,
     );
 
 Map<String, dynamic> _$RouteResponseToJson(RouteResponse instance) =>
     <String, dynamic>{
       'routes': instance.routes,
-      'sessioID': instance.sessioID,
+      'sessionID': instance.sessionID,
     };
 
-Route _$RouteFromJson(Map<String, dynamic> json) => Route(
+RouteObj _$RouteObjFromJson(Map<String, dynamic> json) => RouteObj(
       distance: json['distance'] as int,
       publicDuration: json['publicDuration'] as String,
       cTime: json['cTime'] as int,
-      individualDuration: json['individualDuration'] as String,
+      individualDuration: json['individualDuration'] as String?,
       vehicleTime: json['vehicleTime'] as int,
       parts: (json['parts'] as List<dynamic>)
           .map((e) => RoutePart.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$RouteToJson(Route instance) => <String, dynamic>{
+Map<String, dynamic> _$RouteObjToJson(RouteObj instance) => <String, dynamic>{
       'distance': instance.distance,
       'publicDuration': instance.publicDuration,
       'cTime': instance.cTime,
@@ -69,11 +69,11 @@ MeansOfTransportation _$MeansOfTransportationFromJson(
       name: json['name'] as String,
       shortName: json['shortname'] as String,
       type: json['type'] as int,
-      motType: json['motType'] as int,
+      motType: json['motType'] as int?,
       destination: json['destination'] as String,
-      routeDescriptionText: json['itdRouteDescText'] as String,
+      routeDescriptionText: json['itdRouteDescText'] as String?,
       productName: json['productName'] as String,
-      vehicleOperator: json['itdOperator'] as String,
+      vehicleOperator: json['itdOperator'] as String?,
     );
 
 Map<String, dynamic> _$MeansOfTransportationToJson(
@@ -90,39 +90,39 @@ Map<String, dynamic> _$MeansOfTransportationToJson(
     };
 
 RoutePoint _$RoutePointFromJson(Map<String, dynamic> json) => RoutePoint(
-      stopId: json['stopId'] as String,
+      stopId: json['stopID'] as String,
       area: json['area'] as String,
       usage: json['usage'] as String,
       name: json['name'] as String,
       place: json['place'] as String,
       platform: json['platform'] as String,
-      latitude: (json['latitude'] as num?)?.toDouble(),
-      longitude: (json['longitude'] as num?)?.toDouble(),
+      latitude: (json['x'] as num?)?.toDouble(),
+      longitude: (json['y'] as num?)?.toDouble(),
       dateTime: json['datetime'] as int,
       targetDateTime: json['datetimeTarget'] as int?,
     );
 
 Map<String, dynamic> _$RoutePointToJson(RoutePoint instance) =>
     <String, dynamic>{
-      'stopId': instance.stopId,
+      'stopID': instance.stopId,
       'area': instance.area,
       'usage': instance.usage,
       'name': instance.name,
       'place': instance.place,
       'platform': instance.platform,
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
+      'x': instance.latitude,
+      'y': instance.longitude,
       'datetime': instance.dateTime,
       'datetimeTarget': instance.targetDateTime,
     };
 
 Coordinate _$CoordinateFromJson(Map<String, dynamic> json) => Coordinate(
-      latitude: (json['latitude'] as num).toDouble(),
-      longitude: (json['longitude'] as num).toDouble(),
+      latitude: (json['x'] as num).toDouble(),
+      longitude: (json['y'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$CoordinateToJson(Coordinate instance) =>
     <String, dynamic>{
-      'latitude': instance.latitude,
-      'longitude': instance.longitude,
+      'x': instance.latitude,
+      'y': instance.longitude,
     };

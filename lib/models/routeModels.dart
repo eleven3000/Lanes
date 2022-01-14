@@ -5,12 +5,12 @@ part 'routeModels.g.dart';
 @JsonSerializable()
 class RouteResponse {
   ///Routes
-  final List<Route> routes;
+  final List<RouteObj> routes;
 
   ///Session-ID
-  final String sessioID;
+  final String sessionID;
 
-  RouteResponse({required this.routes, required this.sessioID});
+  RouteResponse({required this.routes, required this.sessionID});
 
   factory RouteResponse.fromJson(Map<String, dynamic> json) =>
       _$RouteResponseFromJson(json);
@@ -19,18 +19,18 @@ class RouteResponse {
 }
 
 @JsonSerializable()
-class Route {
+class RouteObj {
   ///Trip distance
   final int distance;
 
   ///Route Duration, example: 01:37
   final String publicDuration;
 
-  ///???
+  ///Time of Request (?)
   final int cTime;
 
-  ///???
-  final String individualDuration;
+  ///Duration with individual Walking speed (?)
+  final String? individualDuration;
 
   ///Time actually spent in vehicles
   final int vehicleTime;
@@ -38,7 +38,7 @@ class Route {
   ///Route parts
   final List<RoutePart> parts;
 
-  Route(
+  RouteObj(
       {required this.distance,
       required this.publicDuration,
       required this.cTime,
@@ -46,9 +46,9 @@ class Route {
       required this.vehicleTime,
       required this.parts});
 
-  factory Route.fromJson(Map<String, dynamic> json) => _$RouteFromJson(json);
+  factory RouteObj.fromJson(Map<String, dynamic> json) => _$RouteObjFromJson(json);
 
-  Map<String, dynamic> toJson() => _$RouteToJson(this);
+  Map<String, dynamic> toJson() => _$RouteObjToJson(this);
 }
 
 @JsonSerializable()
@@ -99,21 +99,21 @@ class MeansOfTransportation {
   final int type;
 
   ///Type of the Mean of Transport
-  final int motType;
+  final int? motType;
 
   ///Destination of the MOT
   final String destination;
 
   ///Description of the MOT
   @JsonKey(name: "itdRouteDescText")
-  final String routeDescriptionText;
+  final String? routeDescriptionText;
 
   ///Name of the Vehicle Type, "Fussweg" or "Nicht umsteigen"
   final String productName;
 
   ///Operator of the Vehicle
   @JsonKey(name: "itdOperator")
-  final String vehicleOperator;
+  final String? vehicleOperator;
 
   MeansOfTransportation(
       {required this.name,
@@ -134,6 +134,7 @@ class MeansOfTransportation {
 @JsonSerializable()
 class RoutePoint {
   ///ID of the Stop
+  @JsonKey(name: "stopID")
   final String stopId;
 
   ///area
@@ -152,9 +153,11 @@ class RoutePoint {
   final String platform;
 
   ///Latitude (x)
+  @JsonKey(name: "x")
   final double? latitude;
 
   ///Longitude (y)
+  @JsonKey(name: "y")
   final double? longitude;
 
   ///Unix Time arriving/departing at/from the Stop
@@ -186,9 +189,11 @@ class RoutePoint {
 @JsonSerializable()
 class Coordinate {
   ///Latitude (x)
+  @JsonKey(name: "x")
   final double latitude;
 
   ///Longitude (y)
+  @JsonKey(name: "y")
   final double longitude;
 
   Coordinate({required this.latitude, required this.longitude});
