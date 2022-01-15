@@ -23,4 +23,12 @@ class _$TripsService extends TripsService {
     final $request = Request('GET', $url, client.baseUrl, parameters: $params);
     return client.send<dynamic, dynamic>($request);
   }
+
+  @override
+  Future<Response<dynamic>> _getLaterTrips(String sessionId) {
+    final $url = '/trip/next';
+    final $params = <String, dynamic>{'sessionID': sessionId};
+    final $request = Request('GET', $url, client.baseUrl, parameters: $params);
+    return client.send<dynamic, dynamic>($request);
+  }
 }

@@ -13,6 +13,9 @@ abstract class TripsService extends ChopperService {
   @Get()
   Future<Response> _getTrips(@QueryMap() Map<String, dynamic> query);
 
+  @Get(path: "/next")
+  Future<Response> _getLaterTrips(@Query("sessionID") String sessionId);
+
   Future<RouteResponse> getTrips({required RouteParameters parameters}) async {
     if (parameters.from == null || parameters.to == null) {
       return Future.error("Fill in both From and To");
@@ -25,6 +28,12 @@ abstract class TripsService extends ChopperService {
     };
 
     final response = await _getTrips(queryMap);
+
+    return RouteResponse.fromJson(jsonDecode(response.body));
+  }
+
+  Future<RouteResponse> getLaterTrips({required String sessionId}) async {
+    final response = await _getLaterTrips(sessionId);
 
     return RouteResponse.fromJson(jsonDecode(response.body));
   }

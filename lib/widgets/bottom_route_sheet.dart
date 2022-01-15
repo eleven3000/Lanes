@@ -12,13 +12,15 @@ class BottomRouteSheet extends StatelessWidget {
       required this.height,
       required this.width,
       required this.currentRoutes,
-      required this.showLoading})
+      required this.showLoading,
+      required this.onRoutesChanged})
       : super(key: key);
 
   final double height;
   final double width;
   final RouteResponse? currentRoutes;
   final bool showLoading;
+  final void Function(RouteResponse? oldRoutes) onRoutesChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +41,26 @@ class BottomRouteSheet extends StatelessWidget {
               ? (currentRoutes != null)
                   ? ListView.separated(
                       padding: const EdgeInsets.all(0),
-                      itemCount: currentRoutes!.routes.length,
+                      itemCount: currentRoutes!.routes.length + 1,
                       itemBuilder: (BuildContext context, int index) {
+                        if (index == currentRoutes!.routes.length) {
+                          return Padding(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: width / 3),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: lightGrey,
+                                  borderRadius: BorderRadius.circular(20.0)),
+                              child: IconButton(
+                                icon: Icon(Icons.add),
+                                iconSize: 30,
+                                onPressed: () {
+                                  onRoutesChanged(currentRoutes);
+                                },
+                              ),
+                            ),
+                          );
+                        }
                         return RouteOverview(
                           route: currentRoutes!.routes[index],
                         );

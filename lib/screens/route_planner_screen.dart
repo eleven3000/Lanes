@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -221,6 +220,17 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                         width: width,
                         currentRoutes: currentRoutes,
                         showLoading: showLoading,
+                        onRoutesChanged: (oldRoutes) async {
+                          setState(() {
+                            showLoading = true;
+                          });
+                          var newRoutes = await tripsService.getLaterTrips(
+                              sessionId: currentRoutes!.sessionID);
+                          setState(() {
+                            currentRoutes = newRoutes;
+                            showLoading = false;
+                          });
+                        },
                       ),
                     ],
                   ),

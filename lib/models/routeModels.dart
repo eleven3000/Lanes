@@ -12,6 +12,13 @@ class RouteResponse {
 
   RouteResponse({required this.routes, required this.sessionID});
 
+  factory RouteResponse.combineRoutes(
+      {required RouteResponse oldRoutes, required RouteResponse newRoutes}) {
+    List<RouteObj> combinedRoutes = [...oldRoutes.routes + newRoutes.routes];
+    return RouteResponse(
+        routes: combinedRoutes, sessionID: newRoutes.sessionID);
+  }
+
   factory RouteResponse.fromJson(Map<String, dynamic> json) =>
       _$RouteResponseFromJson(json);
 
@@ -46,7 +53,8 @@ class RouteObj {
       required this.vehicleTime,
       required this.parts});
 
-  factory RouteObj.fromJson(Map<String, dynamic> json) => _$RouteObjFromJson(json);
+  factory RouteObj.fromJson(Map<String, dynamic> json) =>
+      _$RouteObjFromJson(json);
 
   Map<String, dynamic> toJson() => _$RouteObjToJson(this);
 }
