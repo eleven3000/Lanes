@@ -12,13 +12,11 @@ class RouteOverview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RoutePoint departurePoint = route.parts[0].points[0];
-    DateTime departureTime =
-        DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime).toLocal();
+    RoutePoint departurePoint = route.departurePoint;
+    DateTime departureTime = route.departureTime;
     //.subtract(Duration(hours: 1));
-    RoutePoint arrivalPoint = route.parts[route.parts.length - 1].points[1];
-    DateTime arrivalTime =
-        DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime).toLocal();
+    RoutePoint arrivalPoint = route.arrivalPoint;
+    DateTime arrivalTime = route.arrivalTime;
     return SizedBox(
       height: 200,
       width: double.maxFinite,

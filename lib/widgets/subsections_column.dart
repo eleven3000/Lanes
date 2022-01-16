@@ -43,9 +43,7 @@ class SubsectionIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RoutePoint departurePoint = part.points[0];
-    DateTime departureTime =
-        DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime).toLocal();
+    DateTime departureTime = part.departureTime;
     return Container(
       child: Column(
         children: [

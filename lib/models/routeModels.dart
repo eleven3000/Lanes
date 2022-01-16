@@ -12,7 +12,7 @@ class RouteResponse {
 
   RouteResponse({required this.routes, required this.sessionID});
 
-  factory RouteResponse.combineRoutes(
+  factory RouteResponse.combine(
       {required RouteResponse oldRoutes, required RouteResponse newRoutes}) {
     List<RouteObj> combinedRoutes = [...oldRoutes.routes + newRoutes.routes];
     return RouteResponse(
@@ -53,6 +53,16 @@ class RouteObj {
       required this.vehicleTime,
       required this.parts});
 
+  int get partsLength => parts.length;
+
+  RoutePoint get departurePoint => parts.first.points.first;
+
+  RoutePoint get arrivalPoint => parts.last.points.last;
+
+  DateTime get departureTime => DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime).toLocal();
+
+  DateTime get arrivalTime => DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime).toLocal();
+
   factory RouteObj.fromJson(Map<String, dynamic> json) =>
       _$RouteObjFromJson(json);
 
@@ -87,6 +97,15 @@ class RoutePart {
       required this.points,
       required this.allPointsWithStopovers,
       required this.coordinates});
+
+  RoutePoint get departurePoint => points.first;
+
+  RoutePoint get arrivalPoint => points.last;
+
+  DateTime get departureTime => DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime).toLocal();
+  
+  DateTime get arrivalTime => DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime).toLocal();
+
 
   factory RoutePart.fromJson(Map<String, dynamic> json) =>
       _$RoutePartFromJson(json);

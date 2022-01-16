@@ -6,6 +6,8 @@ final routeParametersProvider = StateProvider<RouteParameters>((ref) => RoutePar
 class RouteParameters {
   Stop? from;
   Stop? to;
+  DateTime? departAt;
+  DateTime? arriveAt;
 
-  RouteParameters({this.from, this.to});
+  RouteParameters({this.from, this.to, this.departAt, this.arriveAt});
 }
