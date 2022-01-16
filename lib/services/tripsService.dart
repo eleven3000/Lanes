@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:chopper/chopper.dart';
+import 'package:intl/intl.dart';
 import 'package:lanes/models/routeModels.dart';
 import 'package:lanes/models/routeParameters.dart';
 
@@ -26,6 +27,18 @@ abstract class TripsService extends ChopperService {
       "origin": parameters.from!.statelessId,
       "destination": parameters.to!.statelessId,
     };
+
+    if(parameters.departAt!=null){
+      String timeQuery = "departure-";
+      timeQuery = timeQuery + DateFormat("HHmm:ddMMyyyy").format(parameters.departAt!);
+      queryMap["datetime"] = timeQuery;
+    }
+
+    if(parameters.arriveAt!=null){
+      String timeQuery = "arrival-";
+      timeQuery = timeQuery + DateFormat("HHmm:ddMMyyyy").format(parameters.arriveAt!);
+      queryMap["datetime"] = timeQuery;
+    }
 
     final response = await _getTrips(queryMap);
 
