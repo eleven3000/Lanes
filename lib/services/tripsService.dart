@@ -28,25 +28,33 @@ abstract class TripsService extends ChopperService {
       "destination": parameters.to!.statelessId,
     };
 
-    if(parameters.departAt!=null){
+    if (parameters.departAt != null) {
       String timeQuery = "departure-";
-      timeQuery = timeQuery + DateFormat("HHmm:ddMMyyyy").format(parameters.departAt!);
+      timeQuery =
+          timeQuery + DateFormat("HHmm:ddMMyyyy").format(parameters.departAt!);
       queryMap["datetime"] = timeQuery;
     }
 
-    if(parameters.arriveAt!=null){
+    if (parameters.arriveAt != null) {
       String timeQuery = "arrival-";
-      timeQuery = timeQuery + DateFormat("HHmm:ddMMyyyy").format(parameters.arriveAt!);
+      timeQuery =
+          timeQuery + DateFormat("HHmm:ddMMyyyy").format(parameters.arriveAt!);
       queryMap["datetime"] = timeQuery;
     }
 
-    final response = await _getTrips(queryMap);
+    final response = await _getTrips(queryMap).timeout(
+      Duration(seconds: 15),
+      onTimeout: () => Future.error("timeout"),
+    );
 
     return RouteResponse.fromJson(jsonDecode(response.body));
   }
 
   Future<RouteResponse> getLaterTrips({required String sessionId}) async {
-    final response = await _getLaterTrips(sessionId);
+    final response = await _getLaterTrips(sessionId).timeout(
+      Duration(seconds: 15),
+      onTimeout: () => Future.error("timeout"),
+    );
 
     return RouteResponse.fromJson(jsonDecode(response.body));
   }

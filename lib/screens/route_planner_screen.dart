@@ -193,8 +193,10 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                                                           currentRoutes = value;
                                                         });
                                                       }, onError: (error) {
-                                                        showLoading = false;
-                                                        print(error);
+                                                        setState(() {
+                                                          showLoading = false;
+                                                          print(error);
+                                                        });
                                                       });
                                                     },
                                                     icon: Icon(
@@ -224,11 +226,18 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                           setState(() {
                             showLoading = true;
                           });
-                          var newRoutes = await tripsService.getLaterTrips(
+                          var response = tripsService.getLaterTrips(
                               sessionId: currentRoutes!.sessionID);
-                          setState(() {
-                            currentRoutes = newRoutes;
-                            showLoading = false;
+                          response.then((value) {
+                            setState(() {
+                              currentRoutes = value;
+                              showLoading = false;
+                            });
+                          }, onError: (error) {
+                            setState(() {
+                              showLoading = false;
+                              print(error);
+                            });
                           });
                         },
                       ),

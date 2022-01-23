@@ -11,7 +11,7 @@ import 'package:lanes/models/stop_store_object.dart';
 import 'package:lanes/services/stopsService.dart';
 import 'package:lanes/style/style.dart';
 
-enum SearchType { FROM, TO }
+enum SearchType {FROM, TO}
 
 class StopSearchBox extends ConsumerWidget {
   const StopSearchBox(
@@ -38,7 +38,6 @@ class StopSearchBox extends ConsumerWidget {
           _selectedItem = ref.read(routeParametersProvider).to;
         }
         return DropdownSearch<Stop>(
-          key: Key("value"),
           mode: Mode.DIALOG,
           selectedItem: _selectedItem,
           //popupShape:

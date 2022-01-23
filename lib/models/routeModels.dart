@@ -59,9 +59,11 @@ class RouteObj {
 
   RoutePoint get arrivalPoint => parts.last.points.last;
 
-  DateTime get departureTime => DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime).toLocal();
+  DateTime get departureTime =>
+      DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime, isUtc: true);
 
-  DateTime get arrivalTime => DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime).toLocal();
+  DateTime get arrivalTime =>
+      DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime, isUtc: true);
 
   factory RouteObj.fromJson(Map<String, dynamic> json) =>
       _$RouteObjFromJson(json);
@@ -102,10 +104,11 @@ class RoutePart {
 
   RoutePoint get arrivalPoint => points.last;
 
-  DateTime get departureTime => DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime).toLocal();
-  
-  DateTime get arrivalTime => DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime).toLocal();
+  DateTime get departureTime =>
+      DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime, isUtc: true);
 
+  DateTime get arrivalTime =>
+      DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime, isUtc: true);
 
   factory RoutePart.fromJson(Map<String, dynamic> json) =>
       _$RoutePartFromJson(json);

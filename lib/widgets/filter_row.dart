@@ -29,39 +29,53 @@ class _FilterColumnState extends ConsumerState<FilterColumn> {
       children: [
         GestureDetector(
           child: Container(
-            child: Text("Depart at: " + ((params.departAt != null)? DateFormat("MMM dd, HH:mm")
-                                                .format(params.departAt!): "Now"),
+            child: Text(
+                "Depart at: " +
+                    ((params.departAt != null)
+                        ? DateFormat("MMM dd, HH:mm").format(params.departAt!)
+                        : "Now"),
                 style: enabled[0] ? defaultWhite : defaultLightGrey),
           ),
           onTap: () async {
             var now = DateTime.now();
-            var selected = await showDateTimePicker(context: context, initialDate: now, firstDate: now, lastDate: now.add(Duration(days: 31)));
+            var selected = await showDateTimePicker(
+                context: context,
+                initialDate: now,
+                firstDate: now,
+                lastDate: now.add(Duration(days: 31)));
             params.departAt = selected;
             setState(() {
-              if(selected!=null){
+              if (selected != null) {
                 params.arriveAt = null;
                 enabled[0] = true;
                 enabled[1] = false;
-            }
+              }
             });
           },
         ),
         GestureDetector(
           child: Container(
-            child: Text("Arrive at: " + ((params.arriveAt != null)? DateFormat("MMM dd, HH:mm")
-                                                .format(params.arriveAt!): "Now"),
+            child: Text(
+                "Arrive at: " +
+                    ((params.arriveAt != null)
+                        ? DateFormat("MMM dd, HH:mm").format(params.arriveAt!)
+                        : "Now"),
                 style: enabled[1] ? defaultWhite : defaultLightGrey),
           ),
           onTap: () async {
             var now = DateTime.now();
-            var selected = await showDateTimePicker(context: context, initialDate: now, firstDate: now, lastDate: now.add(Duration(days: 31)));
+            var selected = await showDateTimePicker(
+                context: context,
+                initialDate: now,
+                firstDate: now,
+                lastDate: now.add(Duration(days: 31)));
             params.arriveAt = selected;
             setState(() {
-              if(selected!=null){
+              if (selected != null) {
                 params.departAt = null;
                 enabled[0] = false;
                 enabled[1] = true;
-              }else{
+              } else {
                 enabled[0] = true;
                 enabled[1] = false;
               }
@@ -83,6 +97,112 @@ class _FilterColumnState extends ConsumerState<FilterColumn> {
             ],
           ),
           onTap: () {
+            double height = MediaQuery.of(context).size.height;
+            double width = MediaQuery.of(context).size.width;
+            showModalBottomSheet(
+              context: context,
+              constraints: BoxConstraints(
+                  maxHeight: height * 0.8, maxWidth: width * 0.9),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(60),
+                  topRight: Radius.circular(60),
+                ),
+              ),
+              builder: (context) {
+                return Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: Center(
+                        child: Text(
+                          "Vehicles to exclude in routes",
+                          style: largeDarkGrey,
+                        ),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Wrap(
+                          spacing: 20,
+                          runSpacing: 20,
+                          children: [
+                            FilterChip(
+                              label: Text(
+                                "Bus",
+                                style: largeDarkGrey,
+                              ),
+                              backgroundColor: lightGrey,
+                              selectedColor: lightBlue,
+                              labelPadding: EdgeInsets.symmetric(
+                                  vertical: 2.0, horizontal: 6.0),
+                              onSelected: (value) {},
+                            ),
+                            FilterChip(
+                              label: Text(
+                                "Bus",
+                                style: largeDarkGrey,
+                              ),
+                              backgroundColor: lightGrey,
+                              selectedColor: lightBlue,
+                              labelPadding: EdgeInsets.symmetric(
+                                  vertical: 2.0, horizontal: 6.0),
+                              onSelected: (value) {},
+                            ),
+                            FilterChip(
+                              label: Text(
+                                "Bus",
+                                style: largeDarkGrey,
+                              ),
+                              backgroundColor: lightGrey,
+                              selectedColor: lightBlue,
+                              labelPadding: EdgeInsets.symmetric(
+                                  vertical: 2.0, horizontal: 6.0),
+                              onSelected: (value) {},
+                            ),
+                            FilterChip(
+                              label: Text(
+                                "Bus",
+                                style: largeDarkGrey,
+                              ),
+                              backgroundColor: lightGrey,
+                              selectedColor: lightBlue,
+                              labelPadding: EdgeInsets.symmetric(
+                                  vertical: 2.0, horizontal: 6.0),
+                              onSelected: (value) {},
+                            ),
+                            FilterChip(
+                              label: Text(
+                                "Bus",
+                                style: largeDarkGrey,
+                              ),
+                              backgroundColor: lightGrey,
+                              selectedColor: lightBlue,
+                              labelPadding: EdgeInsets.symmetric(
+                                  vertical: 2.0, horizontal: 6.0),
+                              onSelected: (value) {},
+                            ),
+                            FilterChip(
+                              label: Text(
+                                "Bus",
+                                style: largeDarkGrey,
+                              ),
+                              backgroundColor: lightGrey,
+                              selectedColor: lightBlue,
+                              labelPadding: EdgeInsets.symmetric(
+                                  vertical: 2.0, horizontal: 6.0),
+                              onSelected: (value) {},
+                            ),
+                          ],
+                        ),
+                      )),
+                      Expanded(child: Container())
+                    ],
+                  ),
+                );
+              },
+            );
             setState(() {
               enabled[2] = !enabled[2];
             });
