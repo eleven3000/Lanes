@@ -28,11 +28,11 @@ class _ExtraFilterSheetState extends State<ExtraFilterSheet> {
         padding: const EdgeInsets.all(4.0),
         child: FilterChip(
           backgroundColor: lightGrey,
-                  selectedColor: lightBlue,
-                  labelPadding: EdgeInsets.symmetric(
+          selectedColor: lightBlue,
+          labelPadding: EdgeInsets.symmetric(
                       vertical: 2.0, horizontal: 6.0),
-          avatar: Icon(type.icon),
-          label: Text(type.name),
+          avatar: Icon(type.icon, color: darkGrey,),
+          label: Text(type.name, style: largeDarkGrey),
           selected: _filtersSet.contains(type),
           onSelected: (bool value) {
             setState(() {
