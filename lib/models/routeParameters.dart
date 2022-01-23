@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lanes/models/mot_type.dart';
 import 'package:lanes/models/stop.dart';
 
 final routeParametersProvider = StateProvider<RouteParameters>((ref) => RouteParameters());
@@ -9,8 +10,9 @@ class RouteParameters {
   Stop? to;
   DateTime? departAt;
   DateTime? arriveAt;
+  List<MOTType>? filteredTypes;
 
-  RouteParameters({this.from, this.to, this.departAt, this.arriveAt});
+  RouteParameters({this.from, this.to, this.departAt, this.arriveAt, this.filteredTypes});
 }
 
 Future<DateTime?> showDateTimePicker({required BuildContext context,

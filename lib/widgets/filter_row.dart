@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:lanes/models/mot_type.dart';
 import 'package:lanes/models/routeParameters.dart';
 import 'package:lanes/style/style.dart';
+
+import 'extra_filter_sheet.dart';
 
 class FilterColumn extends ConsumerStatefulWidget {
   const FilterColumn({
@@ -96,13 +99,14 @@ class _FilterColumnState extends ConsumerState<FilterColumn> {
               )
             ],
           ),
-          onTap: () {
+          onTap: () async{
             double height = MediaQuery.of(context).size.height;
             double width = MediaQuery.of(context).size.width;
             showModalBottomSheet(
+              isScrollControlled: true,
               context: context,
               constraints: BoxConstraints(
-                  maxHeight: height * 0.8, maxWidth: width * 0.9),
+                  maxHeight: height * 0.9, maxWidth: width * 0.9),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(60),
@@ -110,101 +114,20 @@ class _FilterColumnState extends ConsumerState<FilterColumn> {
                 ),
               ),
               builder: (context) {
-                return Container(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          child: Center(
-                        child: Text(
-                          "Vehicles to exclude in routes",
-                          style: largeDarkGrey,
-                        ),
-                      )),
-                      Expanded(
-                          child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Wrap(
-                          spacing: 20,
-                          runSpacing: 20,
-                          children: [
-                            FilterChip(
-                              label: Text(
-                                "Bus",
-                                style: largeDarkGrey,
-                              ),
-                              backgroundColor: lightGrey,
-                              selectedColor: lightBlue,
-                              labelPadding: EdgeInsets.symmetric(
-                                  vertical: 2.0, horizontal: 6.0),
-                              onSelected: (value) {},
-                            ),
-                            FilterChip(
-                              label: Text(
-                                "Bus",
-                                style: largeDarkGrey,
-                              ),
-                              backgroundColor: lightGrey,
-                              selectedColor: lightBlue,
-                              labelPadding: EdgeInsets.symmetric(
-                                  vertical: 2.0, horizontal: 6.0),
-                              onSelected: (value) {},
-                            ),
-                            FilterChip(
-                              label: Text(
-                                "Bus",
-                                style: largeDarkGrey,
-                              ),
-                              backgroundColor: lightGrey,
-                              selectedColor: lightBlue,
-                              labelPadding: EdgeInsets.symmetric(
-                                  vertical: 2.0, horizontal: 6.0),
-                              onSelected: (value) {},
-                            ),
-                            FilterChip(
-                              label: Text(
-                                "Bus",
-                                style: largeDarkGrey,
-                              ),
-                              backgroundColor: lightGrey,
-                              selectedColor: lightBlue,
-                              labelPadding: EdgeInsets.symmetric(
-                                  vertical: 2.0, horizontal: 6.0),
-                              onSelected: (value) {},
-                            ),
-                            FilterChip(
-                              label: Text(
-                                "Bus",
-                                style: largeDarkGrey,
-                              ),
-                              backgroundColor: lightGrey,
-                              selectedColor: lightBlue,
-                              labelPadding: EdgeInsets.symmetric(
-                                  vertical: 2.0, horizontal: 6.0),
-                              onSelected: (value) {},
-                            ),
-                            FilterChip(
-                              label: Text(
-                                "Bus",
-                                style: largeDarkGrey,
-                              ),
-                              backgroundColor: lightGrey,
-                              selectedColor: lightBlue,
-                              labelPadding: EdgeInsets.symmetric(
-                                  vertical: 2.0, horizontal: 6.0),
-                              onSelected: (value) {},
-                            ),
-                          ],
-                        ),
-                      )),
-                      Expanded(child: Container())
-                    ],
-                  ),
-                );
+                return ExtraFilterSheet(filteredTypes: params.filteredTypes,);
               },
-            );
-            setState(() {
-              enabled[2] = !enabled[2];
+            ).then((value) {
+              print(value);
+              setState(() {
+                if(value is List<MOTType> && value.isNotEmpty){
+                  params.filteredTypes = value;
+                  enabled[2] = true;
+                }
+                else{
+                  params.filteredTypes = null;
+                  enabled[2] = false;
+               }
+              });
             });
           },
         )
