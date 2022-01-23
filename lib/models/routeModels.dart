@@ -14,7 +14,7 @@ class RouteResponse {
 
   factory RouteResponse.combine(
       {required RouteResponse oldRoutes, required RouteResponse newRoutes}) {
-    List<RouteObj> combinedRoutes = [...oldRoutes.routes + newRoutes.routes];
+    List<RouteObj> combinedRoutes = oldRoutes.routes + newRoutes.routes;
     return RouteResponse(
         routes: combinedRoutes, sessionID: newRoutes.sessionID);
   }
