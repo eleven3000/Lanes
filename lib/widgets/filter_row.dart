@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -101,7 +103,7 @@ class _FilterColumnState extends ConsumerState<FilterColumn> {
           ),
           onTap: () async {
             double height = MediaQuery.of(context).size.height;
-            double width = MediaQuery.of(context).size.width;
+            double width = min(MediaQuery.of(context).size.width, 700);
             showModalBottomSheet(
               isScrollControlled: true,
               context: context,
@@ -114,7 +116,8 @@ class _FilterColumnState extends ConsumerState<FilterColumn> {
                 ),
               ),
               builder: (context) {
-                return ExtraFilterSheet(width: width,
+                return ExtraFilterSheet(
+                  width: width,
                   filteredTypes: params.filteredTypes,
                 );
               },

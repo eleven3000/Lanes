@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,7 +39,7 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
+    double width = min(MediaQuery.of(context).size.width, 700);
 
     final chopper = ChopperClient(
       baseUrl: "https://api.lanesapp.de",
@@ -70,7 +71,8 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 12),
-                                    child: FilterColumn(),
+                                    child: SizedBox(
+                                        width: width, child: FilterColumn()),
                                   ),
                                   Container(
                                     decoration: BoxDecoration(
