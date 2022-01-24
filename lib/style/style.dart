@@ -22,13 +22,13 @@ TextStyle defaultBlack =
 TextStyle defaultBlue =
     TextStyle(color: lightBlue, fontSize: 14, fontFamily: "Roboto");
 TextStyle largeLightGrey =
-    TextStyle(color: lightGrey, fontSize: 20, fontFamily: "Roboto");
+    TextStyle(color: lightGrey, fontSize: 18, fontFamily: "Roboto");
 TextStyle largeDarkGrey =
-    TextStyle(color: darkGrey, fontSize: 20, fontFamily: "Roboto");
+    TextStyle(color: darkGrey, fontSize: 18, fontFamily: "Roboto");
 TextStyle largeWhite =
-    TextStyle(color: white, fontSize: 20, fontFamily: "Roboto");
+    TextStyle(color: white, fontSize: 18, fontFamily: "Roboto");
 TextStyle largeBlack =
-    TextStyle(color: eBlack, fontSize: 20, fontFamily: "Roboto");
+    TextStyle(color: eBlack, fontSize: 18, fontFamily: "Roboto");
 TextStyle headlineDarkGrey =
     TextStyle(color: darkGrey, fontSize: 40, fontFamily: "Roboto");
 
@@ -40,3 +40,12 @@ ButtonStyle orangeButtonRoundedStyle = ButtonStyle(
         RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0),
             side: BorderSide(color: lightOrange))));
+
+ButtonStyle blueButtonRoundedStyle = ButtonStyle(
+    backgroundColor: MaterialStateProperty.all<Color>(lightBlue),
+    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+        EdgeInsets.symmetric(vertical: 12, horizontal: 24)),
+    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+            side: BorderSide(color: lightBlue))));

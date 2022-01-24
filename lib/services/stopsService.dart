@@ -12,10 +12,8 @@ abstract class StopsService extends ChopperService {
   static StopsService create([ChopperClient? client]) => _$StopsService(client);
 
   @Get()
-  Future<Response> _getStops(
-    @Query("query") String query,
-    @Query("limit") int limit,
-    @Query("resultTypes") String resultTypes);
+  Future<Response> _getStops(@Query("query") String query,
+      @Query("limit") int limit, @Query("resultTypes") String resultTypes);
 
   Future<List<Stop>> getStops(String query, int limit,
       {List<String> resultTypes = const ["STOP"]}) async {

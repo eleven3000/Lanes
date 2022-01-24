@@ -99,7 +99,7 @@ class _FilterColumnState extends ConsumerState<FilterColumn> {
               )
             ],
           ),
-          onTap: () async{
+          onTap: () async {
             double height = MediaQuery.of(context).size.height;
             double width = MediaQuery.of(context).size.width;
             showModalBottomSheet(
@@ -114,19 +114,20 @@ class _FilterColumnState extends ConsumerState<FilterColumn> {
                 ),
               ),
               builder: (context) {
-                return ExtraFilterSheet(filteredTypes: params.filteredTypes,);
+                return ExtraFilterSheet(width: width,
+                  filteredTypes: params.filteredTypes,
+                );
               },
             ).then((value) {
               print(value);
               setState(() {
-                if(value is List<MOTType> && value.isNotEmpty){
+                if (value is List<MOTType> && value.isNotEmpty) {
                   params.filteredTypes = value;
                   enabled[2] = true;
-                }
-                else{
+                } else {
                   params.filteredTypes = null;
                   enabled[2] = false;
-               }
+                }
               });
             });
           },
