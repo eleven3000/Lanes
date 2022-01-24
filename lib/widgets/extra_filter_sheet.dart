@@ -3,7 +3,8 @@ import 'package:lanes/models/mot_type.dart';
 import 'package:lanes/style/style.dart';
 
 class ExtraFilterSheet extends StatefulWidget {
-  List<MOTType>? filteredTypes;
+  final List<MOTType>? filteredTypes;
+  
    ExtraFilterSheet({
     this.filteredTypes,
     Key? key,
@@ -23,7 +24,7 @@ class _ExtraFilterSheetState extends State<ExtraFilterSheet> {
   }
 
   Iterable<Widget> get motFilterWidgets sync* {
-    for (final type in getMOTTypes()) {
+    for (final type in getMOTTypesFilterable()) {
       yield Padding(
         padding: const EdgeInsets.all(4.0),
         child: FilterChip(

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lanes/models/mot_type.dart';
 import 'package:lanes/models/routeModels.dart';
 import 'package:lanes/style/style.dart';
 
@@ -52,7 +53,7 @@ class SubsectionIcon extends StatelessWidget {
           Row(
             children: [
               Icon(
-                Icons.directions_bus,
+                getMOTTypeMap()[part.mot.type]?.icon ?? Icons.help,
                 color: darkGrey,
               ),
               Container(
