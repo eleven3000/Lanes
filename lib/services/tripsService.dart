@@ -4,6 +4,7 @@ import 'package:chopper/chopper.dart';
 import 'package:intl/intl.dart';
 import 'package:lanes/models/routeModels.dart';
 import 'package:lanes/models/routeParameters.dart';
+import 'package:lanes/util/error_handler.dart';
 
 part 'tripsService.chopper.dart';
 
@@ -19,7 +20,7 @@ abstract class TripsService extends ChopperService {
 
   Future<RouteResponse> getTrips({required RouteParameters parameters}) async {
     if (parameters.from == null || parameters.to == null) {
-      return Future.error("Fill in both From and To");
+      return Future.error(MyMessage(type: MessageType.INFO, message: "Fill in both From and To"));
     }
     print(parameters.from!.statelessId + " : " + parameters.to!.statelessId);
 
@@ -44,7 +45,7 @@ abstract class TripsService extends ChopperService {
 
     final response = await _getTrips(queryMap).timeout(
       Duration(seconds: 15),
-      onTimeout: () => Future.error("timeout"),
+      onTimeout: () => Future.error(MyMessage(type: MessageType.ERROR, message: "Request timed out! Check your internet connection")),
     );
 
     return RouteResponse.fromJson(jsonDecode(response.body));
@@ -53,7 +54,7 @@ abstract class TripsService extends ChopperService {
   Future<RouteResponse> getLaterTrips({required String sessionId}) async {
     final response = await _getLaterTrips(sessionId).timeout(
       Duration(seconds: 15),
-      onTimeout: () => Future.error("timeout"),
+      onTimeout: () => Future.error(MyMessage(type: MessageType.ERROR, message: "Request timed out! Check your internet connection")),
     );
 
     return RouteResponse.fromJson(jsonDecode(response.body));

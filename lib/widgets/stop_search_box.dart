@@ -29,107 +29,103 @@ class StopSearchBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Consumer(
-      builder: (BuildContext context, WidgetRef ref, Widget? child) {
-        Stop? _selectedItem;
-        if (searchType == SearchType.FROM) {
-          _selectedItem = ref.read(routeParametersProvider).from;
-        } else if (searchType == SearchType.TO) {
-          _selectedItem = ref.read(routeParametersProvider).to;
-        } else {
-          _selectedItem = ref.read(routeParametersProvider).via;
+    Stop? _selectedItem;
+    if (searchType == SearchType.FROM) {
+      _selectedItem = ref.read(routeParametersProvider).from;
+    } else if (searchType == SearchType.TO) {
+      _selectedItem = ref.read(routeParametersProvider).to;
+    } else {
+      _selectedItem = ref.read(routeParametersProvider).via;
+    }
+    return DropdownSearch<Stop>(
+      mode: Mode.DIALOG,
+      selectedItem: _selectedItem,
+      //popupShape:
+      // RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+      isFilteredOnline: true,
+      searchDelay: Duration(milliseconds: 500),
+      onFind: (text) async {
+        if (text == null || text.isEmpty) {
+          return box.values
+              .map((e) =>
+                  Stop.fromJson(jsonDecode(e.stopJson))..isHistory = true)
+              .toList();
         }
-        return DropdownSearch<Stop>(
-          mode: Mode.DIALOG,
-          selectedItem: _selectedItem,
-          //popupShape:
-          // RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-          isFilteredOnline: true,
-          searchDelay: Duration(milliseconds: 500),
-          onFind: (text) async {
-            if (text == null || text.isEmpty) {
-              return box.values
-                  .map((e) =>
-                      Stop.fromJson(jsonDecode(e.stopJson))..isHistory = true)
-                  .toList();
-            }
-            return stopsService.getStops(
-              text,
-              10,
-            );
-          },
-          onChanged: (newValue) {
-            if (newValue != null) {
-              StopStoreObject? oldStop = box.get(newValue.id);
-              if (oldStop == null) {
-                box.put(newValue.id, StopStoreObject.fromStop(newValue));
-              } else {
-                oldStop.uses++;
-                box.put(oldStop.id, oldStop);
-              }
-              if (searchType == SearchType.FROM) {
-                ref.read(routeParametersProvider).from = newValue;
-              } else if (searchType == SearchType.TO) {
-                ref.read(routeParametersProvider).to = newValue;
-              } else {
-                ref.read(routeParametersProvider).via = newValue;
-              }
-            }
-          },
-          itemAsString: (item) => item != null ? item.name : "",
-          showSearchBox: true,
-          dropdownSearchBaseStyle: largeDarkGrey,
-          dialogMaxWidth: width * 0.8,
-          dropDownButton: Container(),
-          popupItemBuilder: (context, item, isSelected) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Icon(item.getStopTypeIcon()),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: AutoSizeText(
-                      item.name,
-                      style: largeBlack,
-                      maxLines: 2,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-          dropdownBuilder: (context, selectedItem) {
-            if (selectedItem != null) {
-              return Text(
-                selectedItem.name,
-                style: largeDarkGrey,
-              );
-            }
-            return Text(
-              "Tap to search...",
-              style: largeDarkGrey,
-            );
-          },
-          emptyBuilder: (context, searchEntry) {
-            String text = "";
-            if (searchEntry == null || searchEntry.isEmpty) {
-              text = "Search for a stop or address.";
-            } else {
-              text = "no result found!";
-            }
-            return Center(
-                child: Text(
-              text,
-              style: largeDarkGrey,
-            ));
-          },
-          dropdownSearchDecoration: InputDecoration.collapsed(
-              hintText: "Tap to search...", hintStyle: largeDarkGrey),
+        return stopsService.getStops(
+          text,
+          10,
         );
       },
+      onChanged: (newValue) {
+        if (newValue != null) {
+          StopStoreObject? oldStop = box.get(newValue.id);
+          if (oldStop == null) {
+            box.put(newValue.id, StopStoreObject.fromStop(newValue));
+          } else {
+            oldStop.uses++;
+            box.put(oldStop.id, oldStop);
+          }
+          if (searchType == SearchType.FROM) {
+            ref.read(routeParametersProvider).from = newValue;
+          } else if (searchType == SearchType.TO) {
+            ref.read(routeParametersProvider).to = newValue;
+          } else {
+            ref.read(routeParametersProvider).via = newValue;
+          }
+        }
+      },
+      itemAsString: (item) => item != null ? item.name : "",
+      showSearchBox: true,
+      dropdownSearchBaseStyle: largeDarkGrey,
+      dialogMaxWidth: width * 0.8,
+      dropDownButton: Container(),
+      popupItemBuilder: (context, item, isSelected) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Icon(item.getStopTypeIcon()),
+              SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: AutoSizeText(
+                  item.name,
+                  style: largeBlack,
+                  maxLines: 2,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      dropdownBuilder: (context, selectedItem) {
+        if (selectedItem != null) {
+          return Text(
+            selectedItem.name,
+            style: largeDarkGrey,
+          );
+        }
+        return Text(
+          "Tap to search...",
+          style: largeDarkGrey,
+        );
+      },
+      emptyBuilder: (context, searchEntry) {
+        String text = "";
+        if (searchEntry == null || searchEntry.isEmpty) {
+          text = "Search for a stop or address.";
+        } else {
+          text = "no result found!";
+        }
+        return Center(
+            child: Text(
+          text,
+          style: largeDarkGrey,
+        ));
+      },
+      dropdownSearchDecoration: InputDecoration.collapsed(
+          hintText: "Tap to search...", hintStyle: largeDarkGrey),
     );
   }
 }

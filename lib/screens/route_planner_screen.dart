@@ -11,6 +11,7 @@ import 'package:lanes/screens/loading_screen.dart';
 import 'package:lanes/services/stopsService.dart';
 import 'package:lanes/services/tripsService.dart';
 import 'package:lanes/style/style.dart';
+import 'package:lanes/util/error_handler.dart';
 import 'package:lanes/widgets/bottom_route_sheet.dart';
 import 'package:lanes/widgets/dot_column.dart';
 import 'package:lanes/widgets/filter_row.dart';
@@ -150,18 +151,25 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                                                             .read(
                                                                 routeParametersProvider)
                                                             .from;
-                                                        ref
-                                                                .read(
-                                                                    routeParametersProvider)
-                                                                .from =
-                                                            ref
-                                                                .read(
-                                                                    routeParametersProvider)
-                                                                .to;
-                                                        ref
+                                                        Stop? oldTo = ref
                                                             .read(
                                                                 routeParametersProvider)
-                                                            .to = oldFrom;
+                                                            .to;
+                                                        if (oldTo != null &&
+                                                            oldFrom != null) {
+                                                          ref
+                                                              .read(
+                                                                  routeParametersProvider)
+                                                              .from = oldTo;
+                                                          ref
+                                                              .read(
+                                                                  routeParametersProvider)
+                                                              .to = oldFrom;
+                                                        } else {
+                                                          MyErrorHandler.showInfo(
+                                                              context,
+                                                              "Fill in both From and To to switch them");
+                                                        }
                                                       });
                                                     },
                                                     icon: Icon(
@@ -196,8 +204,14 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                                                         });
                                                       }, onError: (error) {
                                                         setState(() {
-                                                          showLoading = false;
-                                                          print(error);
+                                                          if (error
+                                                              is MyMessage) {
+                                                            showLoading = false;
+                                                            MyErrorHandler
+                                                                .showMessage(
+                                                                    context,
+                                                                    error);
+                                                          }
                                                         });
                                                       });
                                                     },
@@ -238,7 +252,10 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
                           }, onError: (error) {
                             setState(() {
                               showLoading = false;
-                              print(error);
+                              if (error is MyMessage) {
+                                showLoading = false;
+                                MyErrorHandler.showMessage(context, error);
+                              }
                             });
                           });
                         },
