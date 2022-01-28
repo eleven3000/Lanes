@@ -30,7 +30,7 @@ jobs:
       - name: Pushes to another repository
         uses: cpina/github-action-push-to-another-repository@main
         env:
-          API_TOKEN_GITHUB: ${{ secrets.Workflow }}
+          API_TOKEN_GITHUB: ${{ secrets.WORKFLOW }}
         with:
           source-directory: 'web'
           destination-github-username: 'eleven3000'
