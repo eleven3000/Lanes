@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:lanes/models/routeModels.dart';
-import 'package:lanes/style/style.dart';
 
 class RouteDetailSheet extends StatelessWidget {
   RouteDetailSheet({Key? key, required this.routeObj}) : super(key: key);
