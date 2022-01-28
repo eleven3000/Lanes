@@ -34,6 +34,7 @@ const _motTypeMap = {
   18: MOTTRAIN,
   19: MOTCAR,
   97: MOTSEATED,
+  99: MOTWALK,
   100: MOTWALK,
 };
 
