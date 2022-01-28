@@ -1,4 +1,6 @@
+import 'package:google_static_maps_controller/google_static_maps_controller.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lanes/style/style.dart';
 
 part 'routeModels.g.dart';
 
@@ -65,6 +67,13 @@ class RouteObj {
   DateTime get arrivalTime =>
       DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime, isUtc: true);
 
+  Iterable<Path> get paths sync* {
+    for (var part in parts) {
+      print(part.locations.length);
+      yield Path(points: part.locations.toList(), color: darkGrey);
+    }
+  }
+
   factory RouteObj.fromJson(Map<String, dynamic> json) =>
       _$RouteObjFromJson(json);
 
@@ -103,6 +112,15 @@ class RoutePart {
   RoutePoint get departurePoint => points.first;
 
   RoutePoint get arrivalPoint => points.last;
+
+  Iterable<Location> get locations sync* {
+    int autoRound = (coordinates.length / 30).ceil();
+    for (var i = 0; i < coordinates.length; i++) {
+      if (i % autoRound == 0) {
+        yield Location(coordinates[i].latitude, coordinates[i].longitude);
+      }
+    }
+  }
 
   DateTime get departureTime =>
       DateTime.fromMillisecondsSinceEpoch(departurePoint.dateTime, isUtc: true);
@@ -182,12 +200,12 @@ class RoutePoint {
   ///platform
   final String platform;
 
-  ///Latitude (x)
-  @JsonKey(name: "x")
+  ///Latitude (y)
+  @JsonKey(name: "y")
   final double? latitude;
 
-  ///Longitude (y)
-  @JsonKey(name: "y")
+  ///Longitude (x)
+  @JsonKey(name: "x")
   final double? longitude;
 
   ///Unix Time arriving/departing at/from the Stop
@@ -218,12 +236,12 @@ class RoutePoint {
 
 @JsonSerializable()
 class Coordinate {
-  ///Latitude (x)
-  @JsonKey(name: "x")
+  ///Latitude (y)
+  @JsonKey(name: "y")
   final double latitude;
 
-  ///Longitude (y)
-  @JsonKey(name: "y")
+  ///Longitude (x)
+  @JsonKey(name: "x")
   final double longitude;
 
   Coordinate({required this.latitude, required this.longitude});

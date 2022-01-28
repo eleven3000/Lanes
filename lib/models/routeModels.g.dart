@@ -96,8 +96,8 @@ RoutePoint _$RoutePointFromJson(Map<String, dynamic> json) => RoutePoint(
       name: json['name'] as String,
       place: json['place'] as String,
       platform: json['platform'] as String,
-      latitude: (json['x'] as num?)?.toDouble(),
-      longitude: (json['y'] as num?)?.toDouble(),
+      latitude: (json['y'] as num?)?.toDouble(),
+      longitude: (json['x'] as num?)?.toDouble(),
       dateTime: json['datetime'] as int,
       targetDateTime: json['datetimeTarget'] as int?,
     );
@@ -110,19 +110,19 @@ Map<String, dynamic> _$RoutePointToJson(RoutePoint instance) =>
       'name': instance.name,
       'place': instance.place,
       'platform': instance.platform,
-      'x': instance.latitude,
-      'y': instance.longitude,
+      'y': instance.latitude,
+      'x': instance.longitude,
       'datetime': instance.dateTime,
       'datetimeTarget': instance.targetDateTime,
     };
 
 Coordinate _$CoordinateFromJson(Map<String, dynamic> json) => Coordinate(
-      latitude: (json['x'] as num).toDouble(),
-      longitude: (json['y'] as num).toDouble(),
+      latitude: (json['y'] as num).toDouble(),
+      longitude: (json['x'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$CoordinateToJson(Coordinate instance) =>
     <String, dynamic>{
-      'x': instance.latitude,
-      'y': instance.longitude,
+      'y': instance.latitude,
+      'x': instance.longitude,
     };
