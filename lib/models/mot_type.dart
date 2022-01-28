@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 
-final MOTBUS = MOTType(
+const MOTBUS = MOTType(
   name: "Bus",
   icon: Icons.directions_bus,
 );
-final MOTTRAIN = MOTType(name: "Train", icon: Icons.directions_train);
-final MOTTRAM = MOTType(name: "Tram", icon: Icons.tram);
-final MOTPLANE = MOTType(name: "Plane", icon: Icons.local_airport);
-final MOTCAR = MOTType(name: "Car", icon: Icons.directions_car);
-final MOTWALK = MOTType(name: "Walk", icon: Icons.directions_walk);
-final MOTSEATED =
+const MOTTRAIN = MOTType(name: "Train", icon: Icons.directions_train);
+const MOTTRAM = MOTType(name: "Tram", icon: Icons.tram);
+const MOTPLANE = MOTType(name: "Plane", icon: Icons.local_airport);
+const MOTCAR = MOTType(name: "Car", icon: Icons.directions_car);
+const MOTWALK = MOTType(name: "Walk", icon: Icons.directions_walk);
+const MOTSEATED =
     MOTType(name: "Stay seated", icon: Icons.airline_seat_recline_normal);
 
-final _motTypeMap = {
+const _motTypeMap = {
   0: MOTTRAIN,
   1: MOTTRAIN,
   2: MOTTRAIN,
@@ -33,8 +33,8 @@ final _motTypeMap = {
   17: MOTBUS,
   18: MOTTRAIN,
   19: MOTCAR,
-  20: MOTWALK,
-  21: MOTSEATED
+  97: MOTSEATED,
+  100: MOTWALK,
 };
 
 Map<int, MOTType> getMOTTypeMap() {
@@ -65,7 +65,7 @@ class MOTType {
   final String name;
   final IconData icon;
 
-  MOTType({required this.name, required this.icon});
+  const MOTType({required this.name, required this.icon});
 
   @override
   bool operator ==(Object other) {

@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lanes/models/routeModels.dart';
 import 'package:lanes/style/style.dart';
 import 'package:lanes/widgets/dot_column.dart';
+import 'package:lanes/widgets/route_detail_sheet.dart';
 import 'package:lanes/widgets/subsections_column.dart';
 
 class RouteOverview extends StatelessWidget {
@@ -17,6 +20,9 @@ class RouteOverview extends StatelessWidget {
     //.subtract(Duration(hours: 1));
     RoutePoint arrivalPoint = route.arrivalPoint;
     DateTime arrivalTime = route.arrivalTime;
+
+    double height = MediaQuery.of(context).size.height;
+    double width = min(MediaQuery.of(context).size.width, 700);
     return SizedBox(
       height: 200,
       width: double.maxFinite,
@@ -152,7 +158,24 @@ class RouteOverview extends StatelessWidget {
                       Flexible(
                         child: TextButton(
                           style: orangeButtonRoundedStyle,
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              constraints: BoxConstraints(
+                                  maxHeight: height * 0.9,
+                                  maxWidth: width * 0.9),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(60),
+                                  topRight: Radius.circular(60),
+                                ),
+                              ),
+                              builder: (context) {
+                                return RouteDetailSheet(routeObj: route,);
+                              },
+                            );
+                          },
                           child: Text(
                             "Details",
                             style: defaultWhite,
