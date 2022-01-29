@@ -128,6 +128,9 @@ class RoutePart {
   DateTime get arrivalTime =>
       DateTime.fromMillisecondsSinceEpoch(arrivalPoint.dateTime, isUtc: true);
 
+  List<RoutePoint> get stopovers =>
+      allPointsWithStopovers.sublist(1, allPointsWithStopovers.length - 1);
+
   factory RoutePart.fromJson(Map<String, dynamic> json) =>
       _$RoutePartFromJson(json);
 

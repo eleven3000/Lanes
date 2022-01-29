@@ -29,6 +29,8 @@ TextStyle largeWhite =
     TextStyle(color: white, fontSize: 18, fontFamily: "Roboto");
 TextStyle largeBlack =
     TextStyle(color: eBlack, fontSize: 18, fontFamily: "Roboto");
+TextStyle veryLargeDarkGrey =
+    TextStyle(color: darkGrey, fontSize: 22, fontFamily: "Roboto");
 TextStyle headlineDarkGrey =
     TextStyle(color: darkGrey, fontSize: 40, fontFamily: "Roboto");
 
