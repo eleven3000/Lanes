@@ -112,7 +112,9 @@ class _PartWidgetState extends State<PartWidget> {
       child: Row(
         children: [
           Expanded(
-              child: SizedBox(
+              child: AnimatedContainer(
+                  curve: Curves.easeIn,
+                  duration: Duration(milliseconds: 200),
                   height: _isExpanded
                       ? (180 + widget.part.stopovers.length * 25)
                       : 180,
