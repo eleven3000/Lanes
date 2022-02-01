@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:chopper/chopper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -8,6 +7,7 @@ import 'package:lanes/models/routeParameters.dart';
 import 'package:lanes/models/stop.dart';
 import 'package:lanes/models/stop_store_object.dart';
 import 'package:lanes/screens/loading_screen.dart';
+import 'package:lanes/services/chopper_provider.dart';
 import 'package:lanes/services/stopsService.dart';
 import 'package:lanes/services/tripsService.dart';
 import 'package:lanes/style/style.dart';
@@ -42,10 +42,7 @@ class _RoutePlannerScreenState extends ConsumerState<RoutePlannerScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = min(MediaQuery.of(context).size.width, 700);
 
-    final chopper = ChopperClient(
-      baseUrl: "https://api.lanesapp.de",
-      services: [StopsService.create(), TripsService.create()],
-    );
+    final chopper = ChopperProvider.chopper;
 
     final stopsService = chopper.getService<StopsService>();
     final tripsService = chopper.getService<TripsService>();

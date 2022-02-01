@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:lanes/main.dart';
 import 'package:lanes/models/mot_type.dart';
 import 'package:lanes/models/routeParameters.dart';
 import 'package:lanes/models/stop_store_object.dart';
+import 'package:lanes/services/chopper_provider.dart';
 import 'package:lanes/services/stopsService.dart';
 import 'package:lanes/style/style.dart';
 import 'package:lanes/widgets/stop_search_box.dart';
@@ -32,7 +32,7 @@ class _ExtraFilterSheetState extends State<ExtraFilterSheet> {
   void initState() {
     _filtersSet = widget.filteredTypes ?? [];
     _box = Hive.box('recent');
-    _stopsService = chopper.getService<StopsService>();
+    _stopsService = ChopperProvider.chopper.getService<StopsService>();
     super.initState();
   }
 
