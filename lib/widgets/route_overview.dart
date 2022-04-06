@@ -58,7 +58,7 @@ class RouteOverview extends StatelessWidget {
                             TextSpan(
                                 text: departureTime
                                     .difference(
-                                        DateTime.now().add(Duration(hours: 1)))
+                                        DateTime.now().add(Duration(hours: 2)))
                                     .inMinutes
                                     .toString()
                                     .padLeft(2, "0"),
